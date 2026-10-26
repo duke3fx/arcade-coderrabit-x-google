@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bug Invaders: CodeRabbit x Google Arcade Edition</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="arcade-wrapper">
+    <!-- Left Arcade Cabinet Panel: Telemetry, Legend & Controls -->
+    <aside class="side-panel">
+      <div class="brand-badge">
+        <span class="brand-collab">⚡ ARCADE EDITION ⚡</span>
+        <span class="brand-main">CODERABBIT × GOOGLE</span>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">📊 TELEMETRÍA EN VIVO</div>
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-label">COMBO MULT</div>
+            <div class="stat-value cyan" id="statCombo">1.0x</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">1-CLICK BOMBS</div>
+            <div class="stat-value yellow" id="statBombs">⚡⚡</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">BUGS FIXED</div>
+            <div class="stat-value" id="statBugs">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">PROD UPTIME</div>
+            <div class="stat-value pink" id="statUptime">100%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">👾 CLASIFICACIÓN DE BUGS</div>
+        <div class="legend-list">
+          <div class="legend-item">
+            <span class="legend-left"><span class="dot" style="background:#ff2a85"></span>Merge Conflict</span>
+            <span class="legend-pts">60 PTS</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-left"><span class="dot" style="background:#00ff88"></span>Memory Leak (x2)</span>
+            <span class="legend-pts">45 PTS</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-left"><span class="dot" style="background:#ffe600"></span>Race Condition</span>
+            <span class="legend-pts">30 PTS</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-left"><span class="dot" style="background:#7c9eff"></span>Null Pointer</span>
+            <span class="legend-pts">20 PTS</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-left"><span class="dot" style="background:#ff6b2b"></span>Friday 5PM UFO</span>
+            <span class="legend-pts">350 PTS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">🕹️ CONTROLES ARCADE</div>
+        <div class="controls-list">
+          <div class="control-row">
+            <span>Mover Nave</span>
+            <span><kbd>WASD</kbd> / <kbd>←↑↓→</kbd></span>
+          </div>
+          <div class="control-row">
+            <span>Disparar PR Laser</span>
+            <span><kbd>SPACE</kbd> / <kbd>Z</kbd></span>
+          </div>
+          <div class="control-row">
+            <span>Git Rebase Dash</span>
+            <span><kbd>SHIFT</kbd> / <kbd>C</kbd></span>
+          </div>
+          <div class="control-row">
+            <span>1-Click Fix Bomb</span>
+            <span><kbd>X</kbd> / <kbd>E</kbd></span>
+          </div>
+          <div class="control-row">
+            <span>Pausa / Audio</span>
+            <span><kbd>P</kbd> / <kbd>M</kbd></span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center CRT Arcade Screen -->
+    <main class="cabinet-center">
+      <header class="top-hud">
+        <div class="hud-group">
+          <div class="hud-metric">
+            <span>SCORE (PRs)</span>
+            <span id="hudScore">0</span>
+          </div>
+          <div class="hud-metric">
+            <span>HIGH SCORE</span>
+            <span id="hudHigh" style="color: var(--neon-yellow)">12,500</span>
+          </div>
+          <div class="hud-metric">
+            <span>SPRINT</span>
+            <span id="hudWave" style="color: var(--neon-cyan)">W-1</span>
+          </div>
+          <div class="hud-metric">
+            <span>PROD LIVES</span>
+            <span id="hudLives">❤️❤️❤️</span>
+          </div>
+        </div>
+        <div class="hud-buttons">
+          <button class="icon-btn active" id="btnCrt" title="Alternar efecto CRT">📺 CRT</button>
+          <button class="icon-btn active" id="btnMute" title="Alternar sonido (M)">🔊 AUDIO ON</button>
+          <button class="icon-btn" id="btnPause" title="Pausar juego (P)">⏸️ PAUSA</button>
+        </div>
+      </header>
+
+      <div class="screen-viewport">
+        <canvas id="gameCanvas" width="760" height="820"></canvas>
+        <div class="crt-overlay" id="crtOverlay"></div>
+      </div>
+
+      <!-- Mobile / Touch Arcade Bar -->
+      <div class="touch-controls">
+        <div class="touch-group">
+          <button class="arcade-btn" id="touchLeft">◀</button>
+          <button class="arcade-btn" id="touchRight">▶</button>
+          <button class="arcade-btn" id="touchDash">DASH</button>
+        </div>
+        <div class="touch-group">
+          <button class="arcade-btn bomb" id="touchBomb">⚡ FIX</button>
+          <button class="arcade-btn fire" id="touchFire">🔥 FIRE</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Arcade Cabinet Panel: CodeRabbit AI Feed & Leaderboard -->
+    <aside class="side-panel">
+      <div class="panel-card">
+        <div class="panel-title">🐰 LIVE AI REVIEW FEED</div>
+        <div class="review-feed" id="reviewFeed"></div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">🏆 HALL OF FAME (LOCAL)</div>
+        <div class="leaderboard-list" id="leaderboardList"></div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">✨ POWER-UPS (DROPS)</div>
+        <div class="legend-list">
+          <div class="legend-item">
+            <span style="color:#ff6b2b">🐰 Auto-Review</span>
+            <span>Triple Laser</span>
+          </div>
+          <div class="legend-item">
+            <span style="color:#4285f4">✨ Gemini Beam</span>
+            <span>Láser Perforante</span>
+          </div>
+          <div class="legend-item">
+            <span style="color:#00f0ff">☁️ Cloud Drone</span>
+            <span>Clon de Apoyo</span>
+          </div>
+          <div class="legend-item">
+            <span style="color:#00ff88">🛡️ Git Revert</span>
+            <span>Escudo + Tests</span>
+          </div>
+          <div class="legend-item">
+            <span style="color:#ffe600">⚡ 1-Click Fix</span>
+            <span>+1 Smart Bomb</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="./src/audio.js"></script>
+  <script src="./src/sprites.js"></script>
+  <script src="./src/game.js"></script>
+</body>
+</html>
